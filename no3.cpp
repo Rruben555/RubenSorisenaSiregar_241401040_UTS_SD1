@@ -107,7 +107,7 @@ public:
         int goal = charint(goalChar);//identifikasi lokasi tujuan
         int edge=0;//track total langkah
         vector<bool> visited(MAX, false);//track sudah dilewati
-        vector<int> parent(MAX, -1);//
+        vector<int> parent(MAX, -1);//track induk vertex
         queue<int> q;//queue int
         visited[start] = true;
         q.push(start);//lokasi awal masuk ke queue
@@ -142,7 +142,7 @@ public:
                 neighbors.erase(neighbors.begin() + minIndex);//hapus yang sudah dilewati
 
                 visited[next] = true; //track sudah dilewati
-                parent[next] = current; 
+                parent[next] = current; //induk vertex menjadi current
                 q.push(next);//next masuk ke queue
             }
         }
@@ -153,9 +153,9 @@ public:
         }
 
         cout << "Jalur Terpendek: \n";//tampilkan perjalanan
-        vector<int> path;
+        vector<int> path;//menyimpan detail perjalanan
         int current = goal;
-        while (current != -1) {
+        while (current != -1) {//push data parent ke path
             path.insert(path.begin(), current);
             current = parent[current];
         }
@@ -164,7 +164,7 @@ public:
         for (int i = 0; i < path.size(); i++) {
             if (i > 0) {
             cout<<weight[path[i]][path[i-1]]<<"m"<< endl;
-            cout <<daftar[path[i]]<<"("<<intchar(path[i])<<")"<< endl;
+            cout <<daftar[path[i]]<<"("<<intchar(path[i])<<")"<< endl;//path[i] karena berisi detail perjalanan
             }
         }
 
@@ -175,7 +175,7 @@ public:
             if (i < path.size()-1) {
                 cout << " -> ";
                 edge++;
-                totalWeight += weight[path[i]][path[i+1]];
+                totalWeight += weight[path[i]][path[i+1]];//weight antara Lokasi ke Lokasi selanjutnya contoh: A ke C
             }
         }
         cout<<"\nTotal langkah: "<<edge<<" edge";
@@ -189,3 +189,4 @@ int main() {
     g.dfs('A');
     g.bfs('A','E');
 }
+
